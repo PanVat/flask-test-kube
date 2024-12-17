@@ -1,0 +1,30 @@
+body{
+    margin: 0;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+td{
+    text-align: center;
+}
+
+.form{
+    margin-top: 20px;
+}
+
+#content{
+
+}
+
+.table-content{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+}
+
+.table-content th tr{
+    background-color: #009879;
+    color: white;
+    text-align: left;
+}
