@@ -1,67 +1,39 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from database import User
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 
+#TODO nainstalovat migrations a wtforms
 
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow())
-
-    def __repr__(self):
-        return "<Úkol %r>" % self.id
-
-
+# Kvůli erroru, který zabraňuje vytvoření databáze
 with app.app_context():
     db.create_all()
 
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    if request.method == 'POST':
-        task_content = request.form['content']
-        new_task = Todo(content=task_content)
+        return render_template('index.html')
 
-        try:
-            db.session.add(new_task)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "Při přidávání nového úkolu nastal problém"
-
-    else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
-        return render_template('index.html', tasks=tasks)
-
-@app.route("/delete/<int:id>")
-def delete(id):
-    task_to_delete = Todo.query.get_or_404(id)
-
-    try:
-        db.session.delete(task_to_delete)
-        db.session.commit()
-        return redirect("/")
-    except:
-        return "Při mazání vašeho úkolu nastal problém"
-
-@app.route("/update/<int:id>", methods=["GET", "POST"])
-def update(id):
-    task = Todo.query.get_or_404(id)
-
+# Routa pro formulář
+@app.route("/form", methods=["GET", "POST"])
+def form():
     if request.method == "POST":
-        task.content = request.form["content"]
+        name = request.form["name"]
+        birth_date = request.form["birth_date"]
+        email = request.form["email"]
+        new_user = User(name=name, birth_date=birth_date, email=email)
 
         try:
+            db.session.add(new_user)
             db.session.commit()
             return redirect("/")
         except:
-            return "Při aktualizování vašeho úkolu nastal problém"
+            return "Při přidávání nového uživatele nastal problém"
     else:
-        return render_template("update.html", task=task)
+        return render_template("form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

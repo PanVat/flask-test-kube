@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Úkoly</title>
+<title>Databáze</title>
 {% endblock %}
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center;">Zápisník úkolů</h1>
+    <h1 style="text-align: center;">Uživatelé</h1>
     {% if tasks|length < 1 %}
-    <h4 style="text-align: center;">Nemáte žádné úkoly, vytvořte jeden!</h4>
+    <h4 style="text-align: center;">Zatím žádné záznamy, přidejte jeden!</h4>
     {% else %}
 
     <table class="table-content">
         <tr>
-            <th>úkol</th>
-            <th>datum přidání</th>
-            <th>akce</th>
+            <th>jméno</th>
+            <th>datum narození</th>
+            <th>email</th>
+            <th>datum vytvoření</th>
         </tr>
         {% for task in tasks %}
         <tr>
@@ -30,11 +31,5 @@
         {% endfor %}
     </table>
     {% endif %}
-    <div class="form">
-        <form action="/" method="POST">
-            <input type="text" name="content" id="content">
-            <input type="submit" value="Vytvořit">
-        </form>
-    </div>
 </div>
 {% endblock %}
