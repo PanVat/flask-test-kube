@@ -1,18 +1,19 @@
-{% extends 'base_html' %}
-
-{% block head %}
-<title>Formulář</title>
-{% endblock %}
+{% extends 'base.html' %}
 
 {% block body %}
 <div class="form">
-    <form action="/form" method="POST">
-        <label for="name">Vaše méno</label>
-        <input type="text" name="name" id="name"><br>
-        <label for="name">Vaše datum narození</label>
-        <input type="text" name="birth_date" id="birth_date">
-        <label for="name">Váš email</label>
-        <input type="text" name="email" id="email">
+    <form method="POST">
+        {{ form.hidden_tag() }}  <!-- CSRF ochrana -->
+
+        <label for="name">Jméno</label>
+        {{ form.name(size=32) }}  <!-- Pole pro jméno -->
+
+        <label for="birth_date">Datum narození</label>
+        {{ form.birth_date() }}  <!-- Pole pro datum narození -->
+
+        <label for="email">Email</label>
+        {{ form.email(size=32) }}  <!-- Pole pro e-mail -->
+
         <input type="submit" value="Odeslat">
     </form>
 </div>

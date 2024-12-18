@@ -1,24 +1,20 @@
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
+# Tento import vám umožní používat SQLAlchemy v aplikaci
+db = SQLAlchemy()
 
-class User(Base):
+class User(db.Model):  # Třída User dědí od db.Model, což umožňuje používat 'query'
     __tablename__ = 'users'  # Název tabulky v databázi
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    birth_date = Column(DateTime, nullable=False)
-    email = Column(String(100), unique=True, nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    birth_date = db.Column(db.DateTime, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Nastavení databáze
-DATABASE_URL = "sqlite:///./test.db"
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Vytvoření tabulek, pokud ještě neexistují
-Base.metadata.create_all(bind=engine)
+# Funkce pro inicializaci databáze (pro aplikaci Flask)
+def init_db(app):
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()

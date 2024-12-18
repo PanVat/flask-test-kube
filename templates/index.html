@@ -1,35 +1,39 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Databáze</title>
+    <title>Databáze</title>
 {% endblock %}
 
 {% block body %}
-<div class="content">
-    <h1 style="text-align: center;">Uživatelé</h1>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center;">Zatím žádné záznamy, přidejte jeden!</h4>
-    {% else %}
-
-    <table class="table-content">
-        <tr>
-            <th>jméno</th>
-            <th>datum narození</th>
-            <th>email</th>
-            <th>datum vytvoření</th>
-        </tr>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.content }}</td>
-            <td>{{ task.date_created.date() }}</td>
-            <td>
-                <a href="/delete/{{task.id}}">vymazat</a>
-                <br>
-                <a href="/update/{{task.id}}">aktualizovat</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
-</div>
+    <div class="content">
+        <h1 style="text-align: center;">Uživatelé</h1>
+        {% if records|length < 1 %}
+            <h4 style="text-align: center;">Zatím žádné záznamy, přidejte jeden!</h4>
+        {% else %}
+            <table class="table-content">
+                <tr>
+                    <th>Jméno</th>
+                    <th>Datum narození</th>
+                    <th>Email</th>
+                    <th>Datum vytvoření</th>
+                </tr>
+                {% for record in records %}
+                    <tr>
+                        <td>{{ record.name }}</td>
+                        <td>{{ record.birth_date.strftime("%d-%m-%Y") }}</td>
+                        <td>{{ record.email }}</td>
+                        <td>{{ record.created_at.strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                        <td>
+                            <a href="/delete/{{ record.id }}">Vymazat</a>
+                            <br>
+                            <a href="/update/{{ record.id }}">Aktualizovat</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        <div>
+            <a href="/form" class="button">Přidat uživatele</a>
+        </div>
+    </div>
 {% endblock %}

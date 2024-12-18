@@ -1,29 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-from database import User
+from flask import Flask, render_template, request, redirect
+from database import db, User, init_db
+from forms import UserForm  # Import vašeho formuláře
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user_database.db'
+app.config['SECRET_KEY'] = 'your_secret_key'  # Potřebné pro CSRF ochranu
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#TODO nainstalovat migrations a wtforms
+# Inicializace databáze
+init_db(app)
 
-# Kvůli erroru, který zabraňuje vytvoření databáze
-with app.app_context():
-    db.create_all()
-
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['GET'])
 def index():
-        return render_template('index.html')
+    records = User.query.all()
+    return render_template('index.html', tasks=records)
 
-# Routa pro formulář
 @app.route("/form", methods=["GET", "POST"])
 def form():
-    if request.method == "POST":
-        name = request.form["name"]
-        birth_date = request.form["birth_date"]
-        email = request.form["email"]
+    form = UserForm()  # Vytvoříme instanci formuláře
+    if form.validate_on_submit():  # Pokud je formulář validní a je odeslán
+        name = form.name.data
+        birth_date = form.birth_date.data
+        email = form.email.data
         new_user = User(name=name, birth_date=birth_date, email=email)
 
         try:
@@ -32,8 +30,7 @@ def form():
             return redirect("/")
         except:
             return "Při přidávání nového uživatele nastal problém"
-    else:
-        return render_template("form.html")
+    return render_template("form.html", form=form)
 
 if __name__ == "__main__":
     app.run(debug=True)

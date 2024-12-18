@@ -1,20 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
-body{
+body {
     background-color: rgb(233, 233, 233);
     font-family: 'Poppins', sans-serif;
 }
 
-.form{
+.form {
     margin-top: 20px;
+    text-align: center;
 }
 
-.content{
+.form label {
+    text-align: left;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form form {
+    display: inline-block;
+    text-align: center;
+}
+
+.form label {
+    display: block;
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.form input{
+    margin-bottom: 12px;
+    padding: 6px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.form input::placeholder{
+    font-size: 13px;
+}
+
+.form input[type="submit"] {
+    text-align: center;
+    background-color: #007a00;
+    padding: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+    border-radius: 10px;
+    border: none; /* Odstraní výchozí rámeček tlačítka */
+    box-shadow: none; /* Odstraní výchozí stín */
+    cursor: pointer; /* Změní kurzor na ruku */
+}
+
+.form input[type="submit"]:hover {
+    background-color: #009100;
+}
+
+.content {
     margin-left: auto;
     text-align: center;
 }
 
-.table-content{
+.table-content {
     border-collapse: collapse;
     background-color: rgb(197, 197, 197);
     /* Vycentruje tabulku */
@@ -23,11 +75,26 @@ body{
     min-width: 400px;
 }
 
-.table-content th{
+.table-content th {
     font-size: 16px;
     padding: 14px;
 }
 
-.table-content, th, td{
+.table-content, th, td {
     border: 1px solid black;
+}
+
+.button:hover {
+    background-color: #009100;
+}
+
+.button {
+    text-align: center;
+    background-color: #007a00;
+    padding: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bolder;
+    color: white;
+    border-radius: 10px;
 }
