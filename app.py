@@ -13,7 +13,7 @@ init_db(app)
 @app.route('/', methods=['GET'])
 def index():
     records = User.query.all()
-    return render_template('index.html', tasks=records)
+    return render_template('index.html', records=records)
 
 @app.route("/form", methods=["GET", "POST"])
 def form():
@@ -31,6 +31,34 @@ def form():
         except:
             return "Při přidávání nového uživatele nastal problém"
     return render_template("form.html", form=form)
+
+@app.route("/delete/<int:id>", methods=["POST", "GET"])
+def delete(id):
+    user_to_delete = User.query.get_or_404(id)
+    try:
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return redirect("/")
+    except:
+        return "Při mazání záznamu nastala chyba"
+
+@app.route("/update/<int:id>", methods=["GET", "POST"])
+def update(id):
+    user_to_update = User.query.get_or_404(id)
+    form = UserForm(obj=user_to_update)  # Předvyplní formulář aktuálními hodnotami
+
+    if request.method == "POST" and form.validate_on_submit():
+        try:
+            user_to_update.name = form.name.data
+            user_to_update.birth_date = form.birth_date.data
+            user_to_update.email = form.email.data
+
+            db.session.commit()
+            return redirect("/")
+        except Exception as e:
+            return f"Při aktualizaci uživatele nastala chyba: {e}"
+
+    return render_template("form.html", form=form, is_update=True, user_id=id)
 
 if __name__ == "__main__":
     app.run(debug=True)

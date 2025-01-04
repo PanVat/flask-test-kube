@@ -68,7 +68,6 @@ body {
 
 .table-content {
     border-collapse: collapse;
-    background-color: rgb(197, 197, 197);
     /* Vycentruje tabulku */
     margin-left: auto;
     margin-right: auto;
@@ -76,6 +75,7 @@ body {
 }
 
 .table-content th {
+    background-color: #ffb500;
     font-size: 16px;
     padding: 14px;
 }
@@ -84,8 +84,22 @@ body {
     border: 1px solid black;
 }
 
-.button:hover {
-    background-color: #009100;
+.table-content td {
+    padding: 12px;
+    text-align: center; /* Vycentruje obsah buňky */
+}
+
+.table-content td a, .table-content td form {
+    display: inline-block;
+    margin-right: 10px; /* Přidá prostor mezi tlačítky */
+}
+
+.table-content tr:nth-child(even) {
+    background-color: rgb(229, 229, 229);
+}
+
+.table-content tr:nth-child(odd) {
+    background-color: rgb(255, 255, 255);
 }
 
 .button {
@@ -97,4 +111,13 @@ body {
     font-weight: bolder;
     color: white;
     border-radius: 10px;
+    margin: 0 5px; /* Mezery mezi tlačítky */
+}
+
+.button:hover {
+    background-color: #009100;
+}
+
+.add-user {
+    padding-top: 16px;
 }

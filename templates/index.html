@@ -16,23 +16,25 @@
                     <th>Datum narození</th>
                     <th>Email</th>
                     <th>Datum vytvoření</th>
+                    <th>Akce</th>
                 </tr>
                 {% for record in records %}
                     <tr>
                         <td>{{ record.name }}</td>
-                        <td>{{ record.birth_date.strftime("%d-%m-%Y") }}</td>
+                        <td>{{ record.birth_date.strftime("%d. %m. %Y") }}</td>
                         <td>{{ record.email }}</td>
-                        <td>{{ record.created_at.strftime("%d-%m-%Y %H:%M:%S") }}</td>
+                        <td>{{ record.created_at.strftime("%d. %m. %Y %H:%M:%S") }}</td>
                         <td>
-                            <a href="/delete/{{ record.id }}">Vymazat</a>
-                            <br>
-                            <a href="/update/{{ record.id }}">Aktualizovat</a>
+                            <form action="/delete/{{ record.id }}" method="post" style="display: inline-block;">
+                                <button type="submit" class="button">Vymazat</button>
+                            </form>
+                            <a href="/update/{{ record.id }}" class="button">Aktualizovat</a>
                         </td>
                     </tr>
                 {% endfor %}
             </table>
         {% endif %}
-        <div>
+        <div class="add-user">
             <a href="/form" class="button">Přidat uživatele</a>
         </div>
     </div>
